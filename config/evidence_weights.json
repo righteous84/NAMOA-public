@@ -1,0 +1,15 @@
+{
+  "policy": "active-evidence-source-trust",
+  "policy_note": "Only sources that produce classification evidence in the running system may appear under 'sources'. Entries under 'reserved_sources' document intended future trust ordering but are NOT active intelligence and MUST NOT be treated as such until their producing components exist.",
+  "sources": {
+    "filename": 0.7
+  },
+  "unknown_source_default": 0.5,
+  "reserved_sources": {
+    "ffprobe": 1.0,
+    "mediainfo": 1.0,
+    "tmdb": 0.95,
+    "ai": 0.85,
+    "user": 1.0
+  }
+}

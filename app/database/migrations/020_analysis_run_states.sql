@@ -1,0 +1,40 @@
+-- ==========================================================
+-- Migration 020
+-- Analysis Run Lifecycle State Correction
+-- ==========================================================
+--
+-- Adds 'abandoned' as a valid persisted AnalysisRun state.
+--
+-- State semantics:
+--
+-- pending
+--     Run created but not started.
+--
+-- running
+--     Run actively executing.
+--
+-- completed
+--     Run completed successfully.
+--
+-- failed
+--     Run attempted execution but encountered an error.
+--
+-- cancelled
+--     Run was deliberately stopped by an operator or
+--     controlled application cancellation.
+--
+-- abandoned
+--     Run became orphaned or could no longer complete
+--     normally, typically because the executing process
+--     disappeared or stale-run recovery intervened.
+--
+-- SQLite requires table reconstruction to change the CHECK
+-- constraint. The actual reconstruction is implemented by:
+--
+--     handle_020_analysis_run_states()
+--
+-- in app/database/migration_handlers.py
+--
+-- ==========================================================
+
+SELECT 1;

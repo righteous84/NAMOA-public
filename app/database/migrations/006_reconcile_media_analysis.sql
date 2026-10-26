@@ -1,0 +1,69 @@
+-- ==========================================================
+-- NAMOA Migration 006
+-- Media Analysis Schema Reconciliation
+-- ==========================================================
+--
+-- Purpose
+-- -------
+-- Reconciles the media_analysis table with the schema
+-- required by Sprint 5.
+--
+-- This migration ensures databases created during earlier
+-- development stages contain the minimum schema required by
+-- the current analysis pipeline.
+--
+-- ----------------------------------------------------------
+-- Schema Changes
+-- ----------------------------------------------------------
+--
+-- media_analysis
+--
+-- Added if missing:
+--
+--     duration       REAL
+--     bitrate        REAL
+--     video_codec    TEXT
+--     audio_tracks   INTEGER
+--
+-- Existing columns are preserved.
+--
+-- Missing columns are added individually.
+--
+-- ----------------------------------------------------------
+-- Execution
+-- ----------------------------------------------------------
+--
+-- SQLite does not support conditional schema modification
+-- such as:
+--
+--     ALTER TABLE ... ADD COLUMN IF NOT EXISTS
+--
+-- Execution is therefore delegated to:
+--
+--     handle_006_reconcile_media_analysis()
+--
+-- in:
+--
+--     app/database/migration_handlers.py
+--
+-- The handler:
+--
+--   • inspects the current schema
+--   • preserves existing columns
+--   • adds only missing columns
+--   • safely supports partially migrated databases
+--
+-- ----------------------------------------------------------
+-- Historical Contract
+-- ----------------------------------------------------------
+--
+-- This migration establishes the reconciled media_analysis
+-- schema required by Sprint 5 while preserving compatibility
+-- with earlier project revisions.
+--
+-- Future schema evolution must occur through new migrations
+-- rather than modifying this migration.
+--
+-- ==========================================================
+
+SELECT 1;

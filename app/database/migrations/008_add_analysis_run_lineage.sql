@@ -1,0 +1,74 @@
+-- ==========================================================
+-- NAMOA Migration 008
+-- Analysis Output Provenance
+-- ==========================================================
+--
+-- Purpose
+-- -------
+-- Establishes output provenance by linking persisted
+-- intelligence outputs back to the AnalysisRun that
+-- produced them.
+--
+-- This enables every persisted analysis result to be
+-- traced to the exact execution responsible for its
+-- creation.
+--
+-- ----------------------------------------------------------
+-- Schema Changes
+-- ----------------------------------------------------------
+--
+-- media_analysis
+--
+-- Added:
+--
+--     analysis_run_id INTEGER
+--
+-- opportunity_assessments
+--
+-- Added:
+--
+--     analysis_run_id INTEGER
+--
+-- ----------------------------------------------------------
+-- Indexes
+-- ----------------------------------------------------------
+--
+-- idx_media_analysis_analysis_run_id
+--
+-- idx_opportunity_assessments_analysis_run_id
+--
+-- ----------------------------------------------------------
+-- Execution
+-- ----------------------------------------------------------
+--
+-- SQLite schema modifications are performed by:
+--
+--     handle_008_analysis_output_provenance_lineage()
+--
+-- in:
+--
+--     app/database/migration_handlers.py
+--
+-- The handler:
+--
+--   • inspects the current schema
+--   • adds only missing columns
+--   • creates indexes idempotently
+--   • safely supports partially migrated databases
+--
+-- ----------------------------------------------------------
+-- Historical Contract
+-- ----------------------------------------------------------
+--
+-- This migration establishes provenance links between
+-- persisted analysis outputs and the AnalysisRun that
+-- produced them.
+--
+-- Future provenance extensions (for example knowledge
+-- version tracking or expert version tracking) must be
+-- implemented through new migrations rather than modifying
+-- this migration.
+--
+-- ==========================================================
+
+SELECT 1;

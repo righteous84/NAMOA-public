@@ -1,0 +1,47 @@
+-- ==========================================================
+-- NAMOA Migration 004
+-- Media Analysis Compatibility Fix
+-- ==========================================================
+--
+-- Purpose
+-- -------
+-- Records reconciliation of historical schema differences
+-- affecting the media_analysis table.
+--
+-- ----------------------------------------------------------
+-- Background
+-- ----------------------------------------------------------
+--
+-- Earlier development iterations introduced the required
+-- schema changes before the migration framework was fully
+-- established.
+--
+-- When the formal migration history was created, the
+-- required schema already existed on supported databases.
+--
+-- ----------------------------------------------------------
+-- Schema Changes
+-- ----------------------------------------------------------
+--
+-- None.
+--
+-- This migration intentionally performs no schema
+-- modifications.
+--
+-- It exists solely as a historical compatibility marker
+-- within the migration sequence.
+--
+-- ----------------------------------------------------------
+-- Historical Contract
+-- ----------------------------------------------------------
+--
+-- This migration documents that media_analysis schema
+-- compatibility had already been achieved prior to the
+-- introduction of the migration framework.
+--
+-- Future schema evolution must occur through new migrations
+-- rather than modifying this migration.
+--
+-- ==========================================================
+
+SELECT 1;

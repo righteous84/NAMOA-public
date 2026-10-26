@@ -1,0 +1,9 @@
+{
+  "duration_seconds": 10.0,
+  "generation_timeout_seconds": 180,
+  "max_artifact_age_seconds": 86400,
+  "max_artifacts_per_lineage": 3,
+  "max_artifact_bytes": 536870912,
+  "preview_dir": null,
+  "ffmpeg_path": null
+}

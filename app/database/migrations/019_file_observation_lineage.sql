@@ -1,0 +1,36 @@
+-- ==========================================================
+-- NAMOA Migration 019
+-- File Observation & Lineage Foundation
+-- ==========================================================
+--
+-- Establishes the first durable filesystem lineage layer.
+--
+-- Architectural distinction:
+--
+--   media_items
+--       Stable NAMOA lineage identity.
+--
+--   file_observations
+--       Immutable historical observations of a filesystem
+--       object belonging to that lineage.
+--
+--   analysis_runs
+--       Intelligence executions against a specific observed
+--       file state.
+--
+-- This migration deliberately does NOT change scanner or
+-- analysis behaviour. It establishes the schema foundation
+-- required for those later changes.
+--
+-- SQLite-specific schema reconciliation is performed by:
+--
+--   handle_019_file_observation_lineage()
+--
+-- in:
+--
+--   app/database/migration_handlers.py
+--
+-- ==========================================================
+
+
+SELECT 1;

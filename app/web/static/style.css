@@ -1,0 +1,3855 @@
+/* NAMOA GUI — Sprint 6.12 */
+
+:root {
+  --bg: #0f1419;
+  --bg-soft: #161c24;
+  --panel: #1b232e;
+  --panel-2: #212b38;
+  --border: #2c3a4d;
+  --text: #e6edf5;
+  --text-muted: #93a4b8;
+  --accent: #4da3ff;
+  --accent-soft: #16283f;
+
+  --current: #2ecc71;
+  --stale: #f39c12;
+  --failed: #e74c3c;
+  --missing: #7f8c8d;
+  --pending: #9b59b6;
+  --running: #3498db;
+  --abandoned: #e67e22;
+  --cancelled: #95a5a6;
+  --opportunity: #1abc9c;
+  --domain: #8e7cc3;
+
+  --on-opportunity: #06121f;
+
+  --release-gold: #d4af37;
+  --release-gold-hi: rgba(255, 244, 214, 0.65);
+  --release-gold-lo: rgba(0, 0, 0, 0.65);
+  --release-gold-glow: rgba(212, 175, 55, 0.35);
+
+  --danger: #8a2f36;
+  --on-danger: #ffffff;
+
+  --on-accent: #06121f;
+
+  --radius: 8px;
+  --radius-sm: 5px;
+}
+
+/* NAMOA Light theme: same semantic tokens, deliberate
+   light palette. Components consume the tokens above,
+   so the whole interface follows the switch. */
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #eef1f6;
+  --bg-soft: #e2e8f0;
+  --panel: #ffffff;
+  --panel-2: #f1f5fa;
+  --border: #c7d2e0;
+  --text: #16202e;
+  --text-muted: #57667a;
+  --accent: #1a5cc8;
+  --accent-soft: #e3edf9;
+
+  --on-accent: #ffffff;
+
+  --current: #1e8449;
+  --stale: #8a5a00;
+  --failed: #c53030;
+  --missing: #5f6b7a;
+  --pending: #7c3aed;
+  --running: #1d6fd1;
+  --abandoned: #c05621;
+  --cancelled: #5f6b7a;
+  --opportunity: #0e7c66;
+  --domain: #6658d0;
+
+  --on-opportunity: #ffffff;
+
+  --release-gold: #8a6d1a;
+  --release-gold-hi: rgba(255, 255, 255, 0.8);
+  --release-gold-lo: rgba(90, 70, 10, 0.35);
+  --release-gold-glow: rgba(138, 109, 26, 0.25);
+
+  --danger: #8c1f28;
+  --on-danger: #ffffff;
+}
+
+html[data-theme="light"] a:visited {
+  color: #1a56c4;
+}
+
+html[data-theme="light"] a:hover {
+  color: #12418f;
+}
+
+html[data-theme="light"] tr.group-head td {
+  background: rgba(22, 32, 46, 0.06);
+}
+
+html[data-theme="light"] .radio-stack > p:hover {
+  border-color: #b9cbe4;
+}
+
+html[data-theme="light"] .btn-warn,
+html[data-theme="light"] a.btn-warn:visited,
+html[data-theme="light"] a.btn-warn:hover,
+html[data-theme="light"] a.btn-warn:active {
+  color: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  color-scheme: dark;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.app {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+/* ---------------- Sidebar ---------------- */
+/* Normal document column: no fixed viewport height,
+   no sticky positioning, no independent scrollbar.
+   The browser page scroll reveals both columns. */
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg-soft);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+
+.nav {
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.nav-icon {
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.nav-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.nav-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 6px 30px;
+  padding-left: 10px;
+  border-left: 2px solid var(--border);
+}
+
+.nav-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.nav-sub-item:hover {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.nav-sub-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.nav-sub-icon {
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* Sprint 15 organisation workspace secondary navigation. */
+
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 2px;
+  margin-bottom: 16px;
+  padding: 6px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.subnav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.subnav-item:hover {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.subnav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.subnav-icon {
+  opacity: 0.85;
+}
+
+/* Organisation profile workflow: page head, progress, sections, actions. Shared by create and edit. */
+
+.profile-page-head {
+  margin: 0 0 16px;
+}
+
+.profile-page-head .breadcrumb {
+  margin: 0 0 4px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.profile-page-head h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.profile-page-head .muted {
+  margin: 0 0 8px;
+}
+
+.progress-card .progress-list {
+  list-style: none;
+  margin: 10px 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px 12px;
+}
+
+.progress-card .progress-list li {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  background: var(--bg-soft);
+}
+
+.progress-card .progress-list li.done {
+  border-color: var(--current);
+  color: var(--text);
+}
+
+.progress-card .progress-list li.todo {
+  color: var(--text-muted);
+}
+
+.progress-count {
+  font-weight: 600;
+  margin: 6px 0 0;
+}
+
+.section-card {
+  margin-bottom: 16px;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.section-head h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.section-sub {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.section-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.preset-card h3 .section-icon {
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  margin-right: 6px;
+  vertical-align: -4px;
+}
+
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 16px 0 4px;
+}
+
+.profile-actions .inline-form {
+  margin: 0;
+}
+
+.action-card .card-head {
+  margin-bottom: 8px;
+}
+
+.action-card p {
+  margin: 6px 0;
+}
+
+.action-card .btn {
+  min-width: 0;
+}
+
+.action-card .btn.small {
+  padding: 7px 14px;
+  font-size: 13.5px;
+}
+
+.save-grid > .danger-zone {
+  margin-top: 0;
+}
+
+.summary-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.summary-list li strong {
+  font-weight: 600;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.summary-list li span:last-child {
+  text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.advanced-card {
+  margin: 16px 0 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--panel-2, var(--panel));
+}
+
+.advanced-card > summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+  list-style: none;
+}
+
+.advanced-card .tech-panel {
+  background: var(--bg-soft);
+}
+
+@media (max-width: 900px) {
+  .progress-card .progress-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Workspace step cards linking workflow stages. */
+
+.step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.step-card {
+  display: block;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.step-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.step-card h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.step-card h3 .step-num {
+  display: inline-block;
+  min-width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.step-card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.sidebar-foot {
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-identity {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.sidebar-page {
+  font-size: 11px;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+.sidebar-mood {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  min-height: 14px;
+  transition: opacity 0.4s ease;
+}
+
+.sidebar-mood.mood-fade {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-mood {
+    transition: none;
+  }
+}
+
+/* Top-right utility menu: compact cog with dropdown. */
+
+.utility-menu {
+  position: relative;
+}
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 17px;
+  line-height: 1;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--panel);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.utility-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 190px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  padding: 6px;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.utility-dropdown a,
+.utility-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13.5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.utility-dropdown a:hover,
+.utility-dropdown button:hover {
+  background: var(--panel-2);
+}
+
+.utility-dropdown a:focus-visible,
+.utility-dropdown button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* About modal: compact centred panel reusing the shared
+   modal shell. */
+
+.modal-narrow {
+  width: 400px;
+  text-align: center;
+  align-items: center;
+}
+
+.modal-narrow .modal-actions {
+  justify-content: center;
+}
+
+.about-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.about-name {
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.about-version {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.about-release.release-mark {
+  font-size: 26px;
+  margin: 0;
+}
+
+.about-scene {
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+}
+
+.about-tagline {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+/* NAMOA v1 release mark: embossed gold specialist signature.
+   System serif italic only; theme tokens keep it legible in
+   both modes. Hover lift is transition-only and disabled
+   under reduced motion. */
+
+.release-mark {
+  font-family: Georgia, 'DejaVu Serif', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--release-gold);
+  text-shadow:
+    0 1px 0 var(--release-gold-hi),
+    0 -1px 1px var(--release-gold-lo);
+  transition: filter 0.25s ease, text-shadow 0.25s ease;
+}
+
+.release-mark:hover {
+  filter: brightness(1.14);
+  text-shadow:
+    0 1px 0 var(--release-gold-hi),
+    0 -1px 1px var(--release-gold-lo),
+    0 0 6px var(--release-gold-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .release-mark {
+    transition: none;
+  }
+
+  .release-mark:hover {
+    filter: none;
+    text-shadow:
+      0 1px 0 var(--release-gold-hi),
+      0 -1px 1px var(--release-gold-lo);
+  }
+}
+
+/* Live health indicator: compact status text with a
+   small state dot. Semantic tokens carry both themes;
+   only opacity pulses, and only while online. */
+
+.health {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.health-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.health[data-state="online"] {
+  color: var(--current);
+}
+
+.health[data-state="offline"] {
+  color: var(--failed);
+}
+
+.health[data-state="checking"] {
+  color: var(--stale);
+}
+
+.health[data-state="online"] .health-dot {
+  animation: health-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes health-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .health[data-state="online"] .health-dot {
+    animation: none;
+  }
+}
+
+/* ---------------- Main ---------------- */
+
+.main {
+  flex: 1;
+  padding: 24px 28px 60px;
+  min-width: 0;
+}
+
+.page-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.page-head h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.refresh-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.page-head-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------------- Cards ---------------- */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.card-head h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.section-title {
+  margin: 18px 0 8px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ---------------- Stat cards ---------------- */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.stat-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.stat-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* ---------------- Badges ---------------- */
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge.current { background: rgba(46, 204, 113, 0.16); color: var(--current); }
+.badge.stale { background: rgba(243, 156, 18, 0.16); color: var(--stale); }
+.badge.failed { background: rgba(231, 76, 60, 0.16); color: var(--failed); }
+.badge.missing { background: rgba(127, 140, 141, 0.18); color: var(--missing); }
+.badge.pending { background: rgba(155, 89, 182, 0.16); color: var(--pending); }
+.badge.running { background: rgba(52, 152, 219, 0.16); color: var(--running); }
+.badge.abandoned { background: rgba(230, 126, 34, 0.16); color: var(--abandoned); }
+.badge.cancelled { background: rgba(149, 165, 166, 0.18); color: var(--cancelled); }
+.badge.unknown { background: rgba(147, 164, 184, 0.14); color: var(--text-muted); }
+.badge.opportunity { background: rgba(26, 188, 156, 0.16); color: var(--opportunity); }
+.badge.domain { background: rgba(142, 68, 173, 0.16); color: var(--domain); }
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------------- Tables ---------------- */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.data-table tbody tr:hover {
+  background: var(--panel-2);
+}
+
+.data-table td:first-child {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-table a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.data-table a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------- Facts ---------------- */
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 8px 24px;
+}
+
+.fact {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+}
+
+.fact-key {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.fact-value {
+  text-align: right;
+  word-break: break-word;
+}
+
+/* ---------------- Empty states ---------------- */
+
+.empty-state {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state h3 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+/* ---------------- Forms / buttons ---------------- */
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn:hover { filter: brightness(1.1); }
+
+.btn.small {
+  padding: 5px 12px;
+  font-size: 13px;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+.btn-warn {
+  background: var(--stale);
+  color: #1a1206;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: var(--on-danger);
+  border: 1px solid var(--danger);
+  font-weight: 600;
+}
+
+.btn-danger:hover { filter: brightness(1.1); }
+
+/* Preview/review/inspection action: solid opaque treatment in the
+   existing opportunity-teal semantic token, visually distinct from
+   primary Approve, destructive Reject, and success green. White or
+   near-black text per theme keeps it readable in both modes. */
+
+.btn-preview {
+  background: var(--opportunity);
+  color: var(--on-opportunity);
+  border: 1px solid var(--opportunity);
+  font-weight: 600;
+}
+
+.btn-preview:hover { filter: brightness(1.1); }
+
+.destructive-block {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.input-with-toggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-with-toggle input {
+  flex: 1;
+}
+
+.browser-row {
+  margin-top: 6px;
+}
+
+ol.decision-chain {
+  margin: 8px 0;
+  padding-left: 22px;
+  font-size: 13.5px;
+}
+
+ol.decision-chain li {
+  margin-bottom: 4px;
+}
+
+.scan-form {
+  margin-bottom: 12px;
+}
+
+.scan-form label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.scan-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.path-input {
+  flex: 1;
+  min-width: 260px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.filter-input {
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  min-width: 240px;
+}
+
+.muted { color: var(--text-muted); font-size: 13px; }
+
+/* ---------------- Organisation forms ----------------
+   Themed controls matching the NAMOA dark language.
+   Bare inputs inside cards inherit these instead of
+   rendering as default white browser boxes. */
+
+.card input[type="text"]:not([class]),
+.card input[type="password"]:not([class]),
+.card input[type="number"]:not([class]),
+.card select:not([class]),
+.card textarea:not([class]) {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 11px;
+  margin-top: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13.5px;
+  font-family: inherit;
+}
+
+.card input:not([class]):focus,
+.card select:not([class]):focus,
+.card textarea:not([class]):focus,
+.org-form input:focus,
+.org-form select:focus,
+.org-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.card input[type="checkbox"]:not([class]) {
+  width: auto;
+  margin-right: 6px;
+  accent-color: var(--accent);
+}
+
+/* Structured organisation form layout. Forms carrying
+   .org-form opt into grouped sections, grids and hints.
+   Unrelated screens are unaffected. */
+
+.org-form {
+  max-width: 920px;
+}
+
+.org-form label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 10px 0 2px;
+}
+
+.org-form input[type="text"],
+.org-form input[type="password"],
+.org-form input[type="number"],
+.org-form select,
+.org-form textarea {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  padding: 8px 11px;
+  margin-top: 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13.5px;
+  font-family: inherit;
+}
+
+.org-form input[type="checkbox"] {
+  width: auto;
+  margin-right: 6px;
+  accent-color: var(--accent);
+}
+
+.org-form textarea {
+  resize: vertical;
+  font-family: ui-monospace, monospace;
+  font-size: 12.5px;
+}
+
+.field-hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 3px 0 0;
+  max-width: 560px;
+}
+
+.form-section {
+  margin: 16px 0 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-row input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.input-row .btn {
+  flex-shrink: 0;
+}
+
+/* What-If input modes: exactly one active
+   input card at a time. */
+
+.input-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin: 8px 0;
+}
+
+.input-card input[type="text"] {
+  width: 100%;
+}
+
+.input-card-active {
+  border-color: var(--current);
+  background: var(--panel);
+}
+
+.input-card-active .input-card-label {
+  font-weight: bold;
+}
+
+.input-card-inactive {
+  opacity: 0.55;
+}
+
+.input-card-inactive input[type="text"],
+.input-card-inactive .btn {
+  pointer-events: none;
+}
+
+input[type="text"]:disabled {
+  opacity: 0.55;
+  background: var(--bg-soft);
+  cursor: not-allowed;
+}
+
+/* Profile actions grouping; the destructive
+   zone stays visually separate. */
+
+.danger-zone {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--danger, #c0392b);
+  border-radius: var(--radius-sm);
+  background: rgba(192, 57, 43, 0.06);
+}
+
+.danger-zone .btn-danger {
+  margin-top: 4px;
+}
+
+/* Run mode option boxes: one self-contained box
+   per normal choice with even spacing. */
+
+.radio-stack > p {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel-2, var(--panel));
+  padding: 10px 14px;
+  margin: 10px 0;
+}
+
+.radio-stack > p:hover {
+  border-color: #3d5170;
+}
+
+.radio-stack > p:has(input:checked) {
+  border-color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.radio-stack > p > label {
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.radio-stack input[type="radio"] {
+  accent-color: var(--accent);
+}
+
+.radio-stack input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.radio-stack > p > span.muted {
+  display: block;
+  margin-top: 4px;
+}
+
+.capability-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  padding: 10px 14px;
+  margin: 12px 0;
+}
+
+tr.group-head td {
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.path-wrap {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.sample-list {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.sampler-loading {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 3px solid var(--border);
+  border-top-color: var(--current);
+  animation: sampler-spin 0.9s linear infinite;
+}
+
+@keyframes sampler-spin {
+  to { transform: rotate(360deg); }
+}
+
+.form-section > h3 {
+  margin: 0 0 2px;
+  font-size: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 16px;
+  max-width: 580px;
+}
+
+.form-grid input,
+.form-grid select {
+  max-width: none;
+}
+
+.repeat-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  max-width: none;
+}
+
+/* Profile setup and saving summary read as one related
+   pair on wide screens and stack on narrow screens. */
+
+.setup-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin: 12px 0;
+}
+
+.setup-pair > * {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .setup-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+.repeat-row label {
+  margin: 0;
+  flex: 1;
+  min-width: 120px;
+}
+
+.repeat-row .btn {
+  flex-shrink: 0;
+}
+
+.chip-list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 640px;
+}
+
+.chip-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.chip-list code {
+  font-size: 12.5px;
+}
+
+/* Inline result and error panels (in-context feedback). */
+
+.error-panel {
+  border: 1px solid var(--failed);
+  border-left-width: 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(231, 76, 60, 0.08);
+  padding: 10px 14px;
+  margin: 12px 0;
+  max-width: 640px;
+}
+
+.error-panel h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--failed);
+}
+
+.error-panel p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.success-panel {
+  border: 1px solid var(--current);
+  border-left-width: 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(46, 204, 113, 0.08);
+  padding: 10px 14px;
+  margin: 12px 0;
+  max-width: 640px;
+}
+
+.success-panel h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--current);
+}
+
+.success-panel p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+/* Expandable provider sections. */
+
+details.provider {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+details.provider > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 650;
+  list-style: none;
+}
+
+details.provider > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.provider > summary::before {
+  content: "+";
+  color: var(--accent);
+  font-weight: 700;
+}
+
+details.provider[open] > summary::before {
+  content: "-";
+}
+
+details.provider > summary:hover {
+  background: var(--panel-2);
+}
+
+details.provider .provider-body {
+  padding: 4px 16px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.provider-badges {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.compare-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.explanation-summary {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.explanation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.explanation-grid h3 {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.explanation-grid ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+}
+
+.observation-block {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.observation-block h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 860px) {
+  .app { flex-direction: column; }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+
+  .nav-item { padding: 6px 10px; }
+
+  .sidebar-foot { display: none; }
+
+  .main { padding: 16px 14px 40px; }
+
+  .page-head { flex-direction: column; gap: 6px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stat-card { transition: transform 0.12s ease; }
+  .stat-card:hover { transform: translateY(-1px); }
+}
+
+/* Sprint 11 optimisation workflow presentation */
+
+.selection-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.select-all-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.select-cell {
+  width: 2.5rem;
+  text-align: center;
+}
+
+#selection-count {
+  min-width: 5rem;
+}
+
+.disclosure-stack {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+details.disclosure {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.9rem;
+  background: var(--panel-2, var(--panel));
+}
+
+details.disclosure > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+}
+
+details.disclosure > summary:hover {
+  color: var(--accent);
+}
+
+details.disclosure > ul {
+  margin: 0.6rem 0 0.4rem;
+  padding-left: 1.25rem;
+}
+
+/* Shared technical/configuration panel family: advanced
+   children, version/policy snapshots, JSON and rule
+   detail areas. Dark elevated surface, subtle border,
+   existing radius, readable code. */
+
+.tech-panel {
+  background: var(--panel-2, var(--panel));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.tech-panel > summary {
+  color: var(--text);
+}
+
+details.tech-panel[open] {
+  border-color: var(--accent);
+}
+
+.tech-panel .info-panel {
+  background: transparent;
+  border-color: var(--border);
+  border-left-width: 1px;
+}
+
+.tech-panel pre,
+pre.tech-panel {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.card pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+/* ---------------- GUI/UX Phases 1-5 ---------------- */
+
+/* Phase 1: recommended-change block */
+
+.change-summary {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  padding: 10px 12px;
+  margin: 6px 0 8px;
+}
+
+.change-one-liner {
+  margin: 0 0 6px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.change-summary-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.change-summary-lines li {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.change-domain {
+  color: var(--text-muted);
+  min-width: 96px;
+}
+
+.change-value {
+  color: var(--text);
+}
+
+.change-outcome {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--current);
+  font-weight: 600;
+}
+
+.change-outcome-compat {
+  color: var(--opportunity);
+}
+
+.cell-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Phase 3: dashboard recommendation cards */
+
+.rec-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rec-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.rec-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.rec-media {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.rec-media-heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.rec-why {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin: 8px 0 10px;
+}
+
+.rec-meta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 8px 0 12px;
+}
+
+.rec-meta-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Dashboard recommendation metric boxes: compact rounded
+   label/value boxes. Labels carry the meaning so colour is
+   never required. */
+
+.rec-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rec-main {
+  min-width: 0;
+}
+
+.rec-body > .rec-actions {
+  margin-top: 0;
+}
+
+/* Metrics quadrant inside the change-summary information box:
+   text left, compact content-sized 2x2 grid right, sharing the
+   box geometry. Stacks below the text at narrow widths. */
+
+.change-summary.with-metrics {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 16px;
+  align-items: start;
+}
+
+.change-text {
+  min-width: 0;
+}
+
+.change-summary.with-metrics .rec-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 8px;
+  margin: 0;
+  align-content: start;
+}
+
+@media (max-width: 640px) {
+  .change-summary.with-metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .change-summary.with-metrics .rec-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.rec-metric {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  min-width: 0;
+}
+
+.rec-metric-label {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.rec-metric-value {
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.rec-outcome {
+  color: var(--current);
+  font-weight: 600;
+}
+
+.rec-outcome-compat {
+  color: var(--opportunity);
+}
+
+/* Phase 1/3: explicit approval with confirmation modal */
+
+.rec-actions {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* A hidden attribute must always win over any display rule
+   (fixes the previous always-visible confirmation box). */
+[hidden] {
+  display: none !important;
+}
+
+/* Approval confirmation modal (dashboard + opportunity detail) */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 13, 18, 0.66);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  padding: 20px 22px;
+  width: 460px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.modal-message {
+  margin: 0;
+  font-size: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal, .modal-backdrop { transition: none; }
+}
+
+/* Phase 3: dashboard layout + selection + right-hand rail */
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.dashboard-main {
+  min-width: 0;
+}
+
+.dashboard-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.rail-card .facts {
+  grid-template-columns: 1fr;
+}
+
+.rail-steps {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rail-runs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rail-run {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  flex-wrap: wrap;
+}
+
+.rail-run-run {
+  font-weight: 600;
+}
+
+.rail-run-media {
+  color: var(--text-muted);
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.rail-run-media a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Base link treatment for the dark theme:
+   obvious, readable, and keyboard visible. */
+
+a {
+  color: var(--accent);
+}
+
+a:visited {
+  color: #9cc4ff;
+}
+
+a:hover {
+  color: #cfe4ff;
+}
+
+/* Button-styled anchors keep button text colours in
+   every link state; the global link treatment above
+   must never leak into .btn components. The html
+   prefix matches the specificity of the themed
+   link rules so visited/hovered buttons keep
+   readable button text in both themes. */
+
+html a.btn:visited,
+html a.btn:hover,
+html a.btn:active {
+  color: var(--on-accent);
+}
+
+html a.btn.ghost:visited,
+html a.btn.ghost:hover,
+html a.btn.ghost:active {
+  color: var(--accent);
+}
+
+html a.btn-danger:visited,
+html a.btn-danger:hover,
+html a.btn-danger:active {
+  color: var(--failed);
+}
+
+html a.btn-preview:visited,
+html a.btn-preview:hover,
+html a.btn-preview:active {
+  color: var(--on-opportunity);
+}
+
+html a.btn-warn:visited,
+html a.btn-warn:hover,
+html a.btn-warn:active {
+  color: #1a1206;
+}
+
+/* Wizard action anchors keep their themed button text colour in every
+   link state. Without this, the global anchor and html a.btn link
+   rules force var(--on-accent) (white in light mode) onto the light
+   Wizard panel, making "Run Preferences Wizard" and "Open
+   Optimisation Carousel" unreadable. var(--text) already resolves to
+   dark text in light mode and light text in dark mode, matching the
+   Continue Preferences Wizard button. */
+
+html a.btn-wizard-magic:visited,
+html a.btn-wizard-magic:hover,
+html a.btn-wizard-magic:active {
+  color: var(--text);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  filter: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Shared visible keyboard focus for interactive controls.
+   Uses the existing accent token; scoped carousel/nav rules
+   defined elsewhere keep their own treatment. */
+
+.btn:focus-visible,
+.nav-item:focus-visible,
+.nav-sub-item:focus-visible,
+.subnav-item:focus-visible,
+.notification-clear:focus-visible,
+.notification-actions button:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Shared disabled presentation: disabled controls look and
+   behave disabled without changing when they become disabled. */
+
+.btn.is-disabled,
+a.btn.is-disabled,
+.carousel-nav-button.is-disabled,
+[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+a.btn.is-disabled:hover,
+.btn.is-disabled:hover {
+  filter: none;
+}
+
+/* Shared neutral notice block for pages that surface a short
+   non-error note outside the friendly error-panel pattern.
+   Presentation only; error semantics are unchanged. */
+
+.notice {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--text);
+  padding: 10px 12px;
+  margin: 0 0 12px;
+  font-size: 13.5px;
+}
+
+/* Pass D human-facing presentation primitives. Presentation only:
+   existing tokens, no new palette, no new design system. Text is
+   always present alongside these markers; colour is never the
+   only signal. */
+
+/* Priority band: band label plus muted exact score. */
+
+.priority-band {
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.priority-band .band-dot {
+  margin-right: 4px;
+}
+
+.priority-high {
+  color: var(--current);
+}
+
+.priority-medium {
+  color: var(--stale);
+}
+
+.priority-low {
+  color: var(--text-muted);
+}
+
+.priority-score {
+  display: block;
+  font-weight: 400;
+}
+
+/* Categorical risk. Dedicated risk classes use the semantic colour
+   tokens directly and deliberately do not reuse the Current/Stale/
+   Failed badge vocabulary, which already means freshness and
+   execution state elsewhere. */
+
+.risk {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.risk-low {
+  color: var(--current);
+}
+
+.risk-medium {
+  color: var(--stale);
+}
+
+.risk-high {
+  color: var(--failed);
+}
+
+.risk-unknown {
+  color: var(--text-muted);
+}
+
+/* Potential saving: human estimate primary, percent secondary. */
+
+.saving-main {
+  color: var(--current);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Tight disclosure joining an explanation to the controls below
+   it (Opportunities prioritisation). Targeted override only; the
+   shared disclosure rhythm is unchanged. */
+
+details.disclosure-tight {
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+/* Selected recommendation card: restrained accent emphasis while
+   the selection holds. Static; no motion. */
+
+.rec-card:has(.rec-select-box:checked) {
+  border-color: var(--accent);
+}
+
+/* Preview summary/status header grid. Reuses the established
+   auto-fit grid idiom; collapses to one column at tablet width. */
+
+.preview-head-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.preview-head-status {
+  border-left: 2px solid var(--border);
+  padding-left: 12px;
+}
+
+.preview-head-status .card-head {
+  margin-bottom: 8px;
+}
+
+.preview-head-status p {
+  margin: 0 0 8px;
+}
+
+@media (max-width: 900px) {
+  .preview-head-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-head-status {
+    border-left: none;
+    border-top: 2px solid var(--border);
+    padding-left: 0;
+    padding-top: 12px;
+  }
+}
+
+.status-marker {
+  margin-right: 6px;
+}
+
+.status-ready {
+  color: var(--current);
+}
+
+.status-blocked {
+  color: var(--failed);
+}
+
+.status-neutral {
+  color: var(--text-muted);
+}
+
+/* Restrained product accent: opacity-only shimmer on a small
+   state marker, reusing the wizard-twinkle motion idiom. Never
+   on tables, body text, or destructive/error panels. */
+
+@keyframes status-glimmer {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .status-glimmer {
+    animation: status-glimmer 1.6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-glimmer {
+    animation: none;
+  }
+}
+
+/* Compact icon preview action for dense table contexts. Native
+   link; accessible name and tooltip carry the meaning. */
+
+.preview-icon-link {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.preview-icon-link:hover {
+  background: var(--panel-2);
+}
+
+/* Magnifier icon inside Preview buttons. Inherits the button
+   text colour in both themes; inline-flex keeps icon and word
+   aligned without offsets. */
+
+.btn-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-preview svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.rec-toolbar {
+  margin-bottom: 12px;
+}
+
+.rec-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-right: auto;
+}
+
+.rec-select input {
+  accent-color: var(--accent);
+}
+
+.rec-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rec-card-head .rec-select {
+  margin-right: 4px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Phase 2: organisation verdict */
+
+.verdict {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--text);
+}
+
+/* Phase 4: notification stack */
+
+.notification-panel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-clear {
+  align-self: flex-end;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.notification {
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notification-title {
+  font-weight: 650;
+  font-size: 14px;
+}
+
+.notification-message {
+  font-size: 12.5px;
+  white-space: pre-line;
+}
+
+.notification-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  margin-top: 2px;
+}
+
+.notification-category {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.notification-links a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.notification-actions button {
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 11.5px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Semantic colours: light matching background, deeper matching
+   border, restrained text, subtle shadow. */
+.notification--information {
+  background: #eaf2fd;
+  border: 1px solid #2b6cb0;
+  color: #1a3a5c;
+}
+
+.notification--success {
+  background: #e9f8ee;
+  border: 1px solid #1e8449;
+  color: #14532d;
+}
+
+.notification--working {
+  background: #fdf6e3;
+  border: 1px solid #b7791f;
+  color: #744210;
+}
+
+.notification--attention {
+  background: #fdeee3;
+  border: 1px solid #c05621;
+  color: #7b341e;
+}
+
+.notification--error {
+  background: #fdeceb;
+  border: 1px solid #c53030;
+  color: #7b1e1e;
+}
+
+.notification--neutral {
+  background: #eceff1;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+/* Phase 5: folder browser */
+
+.folder-browser {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+
+.folder-browser-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.folder-current {
+  font-size: 13px;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+.folder-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.folder-list li button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.folder-list li button:hover {
+  background: var(--panel);
+}
+
+.folder-browser-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.folder-error {
+  color: var(--failed);
+  font-size: 12px;
+}
+
+/* Phase 5: scan progress */
+
+.scan-progress {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+
+.scan-progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.scan-progress-head h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.scan-progress-path {
+  font-size: 12px;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+.scan-progress-status {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 6px 0;
+}
+
+.scan-progress-bar {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.scan-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 5px;
+  transition: width 0.4s ease;
+}
+
+.scan-progress-bar.indeterminate .scan-progress-fill {
+  width: 30%;
+  animation: scan-slide 1.6s ease-in-out infinite;
+}
+
+@keyframes scan-slide {
+  0% { margin-left: 0; }
+  100% { margin-left: 70%; }
+}
+
+.scan-progress-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.scan-progress-humour {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 8px;
+  min-height: 1.2em;
+}
+
+.scan-progress-complete {
+  color: var(--current);
+  font-weight: 600;
+}
+
+.scan-progress-error {
+  color: var(--failed);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-progress-fill { transition: none; }
+  .scan-progress-bar.indeterminate .scan-progress-fill { animation: none; }
+  .notification { transition: none; }
+}
+
+/* Sprint 15 productisation: informational and guidance panels. */
+
+.info-panel {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  padding: 10px 14px;
+  margin: 12px 0;
+  max-width: 720px;
+}
+
+.info-panel p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.warning-panel {
+  border: 1px solid rgba(240, 200, 80, 0.55);
+  border-left-width: 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(240, 200, 80, 0.12);
+  padding: 10px 14px;
+  margin: 12px 0;
+  max-width: 640px;
+}
+
+.warning-panel h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.warning-panel p,
+.warning-panel li {
+  margin: 4px 0;
+  font-size: 13px;
+}
+
+.checklist {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+
+/* Sprint 15 productisation: profile preset picker. */
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.preset-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preset-card h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.preset-card .muted {
+  flex: 1;
+}
+
+.preset-card .inline-form {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.preset-card.preset-active {
+  border-color: var(--current);
+}
+
+/* Organisation rule rows: one compact horizontal
+   row per rule on desktop, natural wrap on narrow
+   screens. Badges carry the order number. */
+
+.rule-block {
+  counter-reset: rule-order;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Contained like /opportunities tables: wide rule grids
+   scroll inside their own container instead of forcing
+   document-level horizontal overflow. */
+
+#rule-rows {
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.repeat-row.rule-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 2.2em) minmax(0, 7.5em) minmax(0, 7em)
+    minmax(0, 9em) minmax(0, 7em) minmax(0, 9em)
+    minmax(0, 10em) auto;
+  gap: 8px;
+  align-items: end;
+  counter-increment: rule-order;
+  max-width: none;
+  min-width: 0;
+}
+
+.repeat-row.rule-row > * {
+  min-width: 0;
+}
+
+.repeat-row.rule-row label {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.repeat-row.rule-row input[type="text"],
+.repeat-row.rule-row select {
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.rule-order::before {
+  content: counter(rule-order);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8em;
+  height: 1.8em;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  font-weight: bold;
+}
+
+.rule-controls {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .repeat-row.rule-row {
+    grid-template-columns: 2.2em 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .repeat-row.rule-row {
+    grid-template-columns: 2.2em 1fr;
+  }
+}
+
+/* Highlighted editor sections (save errors). */
+
+.section-error {
+  border: 2px solid var(--danger, #c0392b);
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(192, 57, 43, 0.06);
+}
+
+/* Final save panel: compact, centred, directly
+   under the configuration. */
+
+.save-panel {
+  margin: 0;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  padding: 16px 20px;
+  align-self: start;
+}
+
+/* Final save area: action and summary side by
+   side inside the main content column, stacked
+   on narrow screens. Both stay within the page
+   content width and never reach the sidebar. */
+
+.save-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 16px;
+  align-items: start;
+  margin: 20px 0 4px;
+  max-width: 100%;
+}
+
+.save-grid > * {
+  min-width: 0;
+}
+
+.save-grid .save-summary {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .save-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.save-panel ul {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  justify-content: center;
+}
+
+.save-panel .btn {
+  min-width: 220px;
+}
+
+/* Breathing room before Advanced disclosures. */
+
+details.disclosure {
+  margin-top: 16px;
+}
+
+/* Sprint 15 productisation: inline search/browse row and spacing. */
+
+.search-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-row input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-row .btn {
+  flex-shrink: 0;
+}
+
+.operations-block {
+  margin-top: 20px;
+}
+
+.run-row {
+  margin-top: 16px;
+}
+
+/* Sprint 15 correction: file picker rows inside folder browsers. */
+
+.folder-files-label {
+  margin: 10px 0 4px;
+}
+
+.file-list {
+  list-style: none;
+  margin: 0 0 4px;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.file-row:hover {
+  background: var(--panel);
+}
+
+.file-row .file-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+/* Sprint 15 correction: visual structure preview trees. */
+
+.structure-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+
+.structure-col h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+
+.file-tree {
+  list-style: none;
+  margin: 0;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.file-tree ul {
+  list-style: none;
+  margin: 2px 0 6px 14px;
+  padding: 0 0 0 8px;
+  border-left: 1px solid var(--border);
+}
+
+.file-tree li {
+  margin: 2px 0;
+  word-break: break-all;
+}
+
+/* Removed: custom dark-orange preflight button. Preview and
+   preflight navigation use the standard primary/secondary
+   button hierarchy instead. */
+
+/* Sprint 15 correction: ordered workflow explanation. */
+
+.workflow-steps {
+  margin: 4px 0;
+  padding-left: 22px;
+  font-size: 13px;
+}
+
+.workflow-steps li {
+  margin: 2px 0;
+}
+
+/* Phase 16 preference choice cards: same component family as
+   .radio-stack option boxes, extended for instant-submit answer
+   buttons. Borders, spacing, hover, and focus follow the
+   established option-box language; each position carries a
+   subtle muted accent so choices read as distinct controls. */
+
+.choice-buttons {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.choice-buttons button {
+  text-align: left;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel-2, var(--panel));
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+  width: 100%;
+}
+
+.choice-buttons button strong {
+  display: block;
+  font-size: 14px;
+}
+
+.choice-buttons button span.choice-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.choice-buttons button:hover {
+  border-color: #3d5170;
+}
+
+.choice-buttons button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.choice-buttons button:nth-child(1) {
+  border-left-color: var(--current);
+}
+
+.choice-buttons button:nth-child(2) {
+  border-left-color: var(--pending);
+}
+
+.choice-buttons button:nth-child(3) {
+  border-left-color: var(--opportunity);
+}
+
+.choice-buttons button:nth-child(4) {
+  border-left-color: var(--text-muted);
+}
+
+.choice-buttons button:nth-child(1):hover {
+  background: rgba(46, 204, 113, 0.08);
+}
+
+.choice-buttons button:nth-child(2):hover {
+  background: rgba(155, 89, 182, 0.08);
+}
+
+.choice-buttons button:nth-child(3):hover {
+  background: rgba(26, 188, 156, 0.08);
+}
+
+.choice-buttons button:nth-child(4):hover {
+  background: rgba(147, 164, 184, 0.08);
+}
+
+/* Wizard question sections: breathing room between the heading,
+   the option area, and the next question. */
+
+.wizard-question {
+  margin-bottom: 18px;
+}
+
+.wizard-question .section-head {
+  margin-bottom: 12px;
+}
+
+.wizard-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  padding: 10px 14px;
+  margin: 12px 0;
+}
+
+.wizard-progress .stop-inline {
+  margin-left: 10px;
+  vertical-align: baseline;
+}
+
+/* Wizard media identity: the filename owns the full card width
+   and wraps naturally; file size joins the compact facts grid
+   instead of consuming a half-screen column. */
+
+.media-identity {
+  margin: 4px 0 10px;
+  min-width: 0;
+}
+
+.media-filename {
+  margin: 0;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.media-identity .muted {
+  margin: 2px 0 0;
+}
+
+.wizard-progress p {
+  margin: 2px 0;
+}
+
+/* Intent question groups keep native fieldset semantics while
+   reading as distinct visual sections. */
+
+fieldset.wizard-question {
+  border: none;
+  margin: 0 0 20px;
+  padding: 0;
+  min-width: 0;
+}
+
+fieldset.wizard-question > legend {
+  padding: 0;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+fieldset.wizard-question > legend .section-sub {
+  display: block;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* Phase 16 review suggestion cards: file identity stays paired
+   with its decision action; long filenames wrap inside the card
+   and the action reflows below on narrow viewports. */
+
+.suggestion-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.suggestion-head .media-filename {
+  flex: 1 1 240px;
+}
+
+.suggestion-head form {
+  flex-shrink: 0;
+}
+
+.recommended-outcome {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--opportunity);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  padding: 10px 14px;
+  margin: 12px 0;
+}
+
+.recommended-outcome p {
+  margin: 4px 0;
+}
+
+/* Inline contextual help: keyboard-focusable disclosure styled
+   as a small question affordance; never hover-only. */
+
+.help-tip {
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.help-tip summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.help-tip summary::-webkit-details-marker {
+  display: none;
+}
+
+.help-tip summary:hover,
+.help-tip summary:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.help-tip summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.help-tip p {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  padding: 8px 12px;
+  margin: 6px 0;
+  font-size: 13px;
+  max-width: 560px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Change/reject separation: the replacement choices, the Change
+   action, and the Reject action each own their breathing room. */
+
+.change-choices {
+  margin: 10px 0 4px;
+}
+
+.change-action {
+  margin: 14px 0 4px;
+}
+
+.reject-action {
+  margin: 14px 0 4px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+/* Phase 16 review card header: filename identity and its Accept /
+   Reject actions form one visual group; the recommendation line
+   sits directly beneath as part of the header, never as a
+   competing row. Wraps cleanly on narrow viewports. */
+
+.suggestion-identity {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.suggestion-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.recommendation-line {
+  margin: 4px 0 0;
+}
+
+/* Change choices: side-by-side selectable cards on desktop
+   widths, natural wrap on narrow screens. */
+
+.change-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.change-choices > p {
+  flex: 1 1 150px;
+  margin: 6px 0;
+}
+
+/* Run/Continue Preferences Wizard signature treatment. The purple
+   pastel panel, coloured left strip, glow, lift and shimmer are part
+   of the button itself, not an icon pasted beside plain text. Kernel
+   focus is explicit and the animation is disabled under reduced
+   motion; meaning never depends on the decoration. */
+
+.btn-wizard-magic {
+  position: relative;
+  overflow: hidden;
+  padding-left: 30px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(155, 89, 182, 0.30),
+      rgba(142, 124, 195, 0.16) 55%,
+      rgba(77, 163, 255, 0.10)
+    );
+  border: 1px solid rgba(155, 89, 182, 0.55);
+  border-left: 5px solid var(--pending);
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow:
+    0 0 0 1px rgba(155, 89, 182, 0.10),
+    0 6px 18px rgba(155, 89, 182, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.btn-wizard-magic::before {
+  content: "☾";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--pending);
+  pointer-events: none;
+}
+
+.btn-wizard-magic::after {
+  content: "✦ ✧";
+  position: absolute;
+  top: -2px;
+  right: 10px;
+  font-size: 11px;
+  color: var(--pending);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.btn-wizard-magic:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(155, 89, 182, 0.46),
+      rgba(142, 124, 195, 0.26) 55%,
+      rgba(77, 163, 255, 0.16)
+    );
+  border-color: rgba(155, 89, 182, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(155, 89, 182, 0.28),
+    0 12px 26px rgba(155, 89, 182, 0.34);
+  transform: translateY(-2px);
+}
+
+.btn-wizard-magic:hover::after {
+  opacity: 0.95;
+}
+
+.btn-wizard-magic:focus-visible {
+  outline: 3px solid var(--pending);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-wizard-magic:hover::after {
+    animation: wizard-twinkle 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes wizard-twinkle {
+  0%, 100% { opacity: 0.35; transform: translateY(2px); }
+  50% { opacity: 1; transform: translateY(-1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-wizard-magic,
+  .btn-wizard-magic::after {
+    transition: none;
+    animation: none;
+  }
+
+  .btn-wizard-magic:hover {
+    transform: none;
+  }
+}
+
+/* Wizard launch progress panel: purple left strip, matching the
+   Wizard signature treatment without competing with the button. */
+
+.wizard-launch-progress {
+  border-left: 4px solid var(--pending);
+}
+
+/* Recommendation summary chips (Review Suggestions + Carousel).
+   Colour communicates category/status only; no recommendation type is
+   presented as morally good or bad. */
+
+.recommendation-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.recommendation-chips .chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--text-muted);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+}
+
+.recommendation-chips .chip-category {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.recommendation-chips .chip-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.recommendation-chips .chip-value {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.recommendation-chips .chip-arrow {
+  color: var(--accent);
+  margin: 0 4px;
+}
+
+.recommendation-chips .chip-target {
+  font-weight: 600;
+}
+
+.recommendation-chips .chip-status {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.recommendation-chips .chip-change {
+  border-left-color: var(--opportunity);
+}
+
+.recommendation-chips .chip-change .chip-status {
+  color: var(--opportunity);
+}
+
+.recommendation-chips .chip-no-change {
+  border-left-color: var(--current);
+}
+
+.recommendation-chips .chip-no-change .chip-status {
+  color: var(--current);
+}
+
+.recommendation-chips .chip-no-recommendation {
+  border-left-color: var(--missing);
+}
+
+.recommendation-chips .chip-no-recommendation .chip-status {
+  color: var(--text-muted);
+}
+
+/* Category accents: a small top-edge tab plus the category label
+   colour, so adjacent categories (Video / Audio / Picture / Format)
+   stay visually distinct. The category text label always identifies
+   the category, so this is differentiation, not colour-only meaning.
+   Every value is an existing theme token, so both themes apply. */
+
+.recommendation-chips .chip-cat-video {
+  border-top: 3px solid var(--accent);
+}
+
+.recommendation-chips .chip-cat-video .chip-category {
+  color: var(--accent);
+}
+
+.recommendation-chips .chip-cat-audio {
+  border-top: 3px solid var(--pending);
+}
+
+.recommendation-chips .chip-cat-audio .chip-category {
+  color: var(--pending);
+}
+
+.recommendation-chips .chip-cat-picture {
+  border-top: 3px solid var(--opportunity);
+}
+
+.recommendation-chips .chip-cat-picture .chip-category {
+  color: var(--opportunity);
+}
+
+.recommendation-chips .chip-cat-format {
+  border-top: 3px solid var(--stale);
+}
+
+.recommendation-chips .chip-cat-format .chip-category {
+  color: var(--stale);
+}
+
+.recommendation-chips .chip-cat-other {
+  border-top: 3px solid var(--text-muted);
+}
+
+/* Manual Choice editor shares the recommendation field list. */
+
+.manual-choice-form .manual-field {
+  margin-bottom: 12px;
+}
+
+.manual-choice-form .manual-leave {
+  margin: 8px 0;
+}
+
+/* Optimisation Carousel: one item at a time, stable controls, and a
+   short deliberate transition AFTER a decision has already been
+   persisted. The animation never delays persistence. */
+
+.carousel {
+  max-width: 780px;
+}
+
+.carousel-progress {
+  margin: 4px 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.carousel-intro {
+  max-width: 780px;
+}
+
+/* Previous/next navigation. Navigation is link-only and never submits
+   a decision; boundaries render a clearly disabled indicator. */
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 10px;
+}
+
+.carousel-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.carousel-nav-button:hover {
+  border-color: var(--pending);
+  color: var(--pending);
+  background: var(--bg-soft);
+}
+
+.carousel-nav-button:focus-visible {
+  outline: 3px solid var(--pending);
+  outline-offset: 2px;
+}
+
+.carousel-nav-button.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+html a.carousel-nav-button:visited,
+html a.carousel-nav-button:active {
+  color: var(--text);
+}
+
+html a.carousel-nav-button:hover {
+  color: var(--pending);
+}
+
+.carousel-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 12px;
+}
+
+.carousel-controls > form {
+  flex-shrink: 0;
+}
+
+.carousel-controls .manual-choice {
+  flex: 1 1 100%;
+}
+
+@keyframes carousel-advance-in {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .carousel-advance {
+    animation: carousel-advance-in 820ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-advance {
+    animation: none;
+  }
+}
+
+/* Phase 17 optimisation preview: side-by-side original and
+   generated players plus the authoritative transformation
+   summary. Native video controls only; no custom player. */
+
+.preview-players {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.preview-pane video {
+  width: 100%;
+  max-height: 420px;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------------- Preview decision actions ---------------- */
+/* Vertically stacked decision group on the Preview page.
+   Accent strips reuse the established semantic variables
+   (accent primary, stale warning, failed destructive) so the
+   actions belong to the existing UI family. */
+
+.preview-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.preview-action {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  background: var(--panel);
+}
+
+.preview-action.warn {
+  border-left-color: var(--stale);
+}
+
+.preview-action.danger {
+  border-left-color: var(--failed);
+}
+
+.preview-action h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.preview-action p {
+  margin: 6px 0;
+}
+
+.preview-action p:first-child {
+  margin-top: 0;
+}
+
+.preview-action p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------- Preview position row ---------------- */
+/* Compact horizontal slider + timestamp + snapshot controls
+   on the Preview page. Narrow numeric input; wrapping flex
+   keeps small viewports usable. */
+
+.preview-position-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 6px 0;
+}
+
+.preview-position-row input[type="range"] {
+  flex: 1 1 220px;
+  min-width: 160px;
+}
+
+.preview-position-row input[type="number"] {
+  width: 7em;
+}
+
+.preview-position-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-params {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.preview-params dt {
+  font-weight: 600;
+}
+
+.preview-params dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Forced-colours support for shared controls: keep button
+   boundaries and keyboard focus perceivable when the platform
+   overrides author colours. */
+
+@media (forced-colors: active) {
+  .btn,
+  .btn.ghost,
+  .btn-danger,
+  .btn-preview,
+  .btn-warn,
+  .nav-item.active,
+  .subnav-item.active {
+    border: 1px solid ButtonText;
+  }
+
+  :focus-visible {
+    outline: 2px solid Highlight;
+  }
+
+  .badge {
+    border: 1px solid ButtonText;
+  }
+
+  /* Pass D markers stay perceivable and static: text always
+     carries the meaning, and no shimmer runs. */
+
+  .status-glimmer,
+  .status-marker,
+  .band-dot {
+    animation: none;
+  }
+
+  .priority-band,
+  .risk,
+  .saving-main {
+    forced-color-adjust: auto;
+  }
+}

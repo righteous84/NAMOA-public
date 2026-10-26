@@ -1,0 +1,7 @@
+# Local runtime state
+.env
+data/
+config-data/
+logs/
+*.db
+*.db-*

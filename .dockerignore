@@ -1,0 +1,40 @@
+# Version control and private history
+.git
+.gitignore
+
+# AI control plane and agent tooling
+.ai
+.opencode
+AGENTS.md
+opencode.json
+
+# Internal documentation and development material
+README.md
+README.public.md
+docs
+scripts
+tests
+tmp
+assets
+docker
+app/deprecated
+app/**/*.md
+
+# Runtime state that must never enter the image
+data
+logs
+*.db
+*.db-*
+.env
+.env.*
+config-data
+
+# Python build artefacts
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache
+
+# CI and release metadata
+.github

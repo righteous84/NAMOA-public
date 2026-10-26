@@ -1,0 +1,40 @@
+# NAMOA TrueNAS SCALE Custom App
+#
+# Use Apps -> Discover -> Custom App -> Install via YAML in TrueNAS SCALE.
+# Replace every /mnt/tank/... path with a dataset path that exists on your
+# system. Create the data, config, and logs datasets before installing.
+#
+# The media dataset is mounted at the same path inside the container that
+# TrueNAS uses on the host. That keeps paths already stored in the NAMOA
+# database valid. For a brand-new installation you may use any stable path.
+#
+# Set user to the UID:GID that owns the data, config, logs, and media
+# datasets. 1000:1000 is an example, not a universal TrueNAS value.
+
+services:
+  namoa:
+    image: ghcr.io/righteous84/namoa:latest
+    container_name: namoa
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "8080:8080"
+    environment:
+      XDG_CONFIG_HOME: /config
+      NAMOA_PREVIEW_DIR: /data/previews
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - /mnt/tank/apps/namoa/data:/data
+      - /mnt/tank/apps/namoa/config:/config
+      - /mnt/tank/apps/namoa/logs:/app/logs
+      - /mnt/tank/media:/mnt/tank/media
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s

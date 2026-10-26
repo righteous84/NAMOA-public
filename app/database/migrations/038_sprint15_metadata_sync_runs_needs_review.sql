@@ -1,0 +1,43 @@
+-- ==========================================================
+-- Migration 038
+--
+-- Sprint 15 final correction: reconcile already-existing
+-- databases with the current metadata_sync_runs schema.
+-- ==========================================================
+--
+-- Background:
+--
+-- Migration 037 created metadata_sync_runs. Its definition
+-- was extended with a needs_review counter after some
+-- existing databases had already applied the earlier 037
+-- revision. Those databases therefore lack the
+-- needs_review column while the repository selects it,
+-- which breaks Organisation Settings/Integrations and
+-- Test/What-If pages with:
+--
+--     sqlite3.OperationalError: no such column:
+--     needs_review
+--
+-- This migration upgrades already-existing databases to
+-- the schema the current code expects. It never resets
+-- the database, never deletes migration history, and
+-- never touches existing metadata_sync_runs rows beyond
+-- giving them the sensible default (0, not under review).
+--
+-- Fresh databases are unaffected: 037 already creates the
+-- full schema, and the registered Python handler below
+-- adds the column only when it is actually missing, so
+-- 001 -> latest and legacy-upgrade paths converge on the
+-- same final schema.
+--
+-- The real work happens in the registered handler
+-- (app/database/migration_handlers.py, registered under
+-- this exact filename) because SQLite has no
+-- ALTER TABLE ... ADD COLUMN IF NOT EXISTS. This file
+-- documents intent; the handler performs the guarded
+-- change.
+-- ==========================================================
+
+-- Intent (executed conditionally by the handler):
+-- ALTER TABLE metadata_sync_runs
+-- ADD COLUMN needs_review INTEGER NOT NULL DEFAULT 0;
