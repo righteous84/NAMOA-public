@@ -24,6 +24,24 @@ FFmpeg, pip, npm, or Node.js installed.
 FFmpeg and FFprobe are installed inside the image. The current image is
 built for CPU encoding with `libx265`. No GPU is required.
 
+## Public container image
+
+The published image is:
+
+```text
+ghcr.io/righteous84/namoa:latest
+```
+
+Versioned releases are also published, for example:
+
+```text
+ghcr.io/righteous84/namoa:0.1.0
+```
+
+The GitHub Container Registry package must have public visibility. If a pull
+returns `denied`, the package is still private. The repository owner can change
+that under the package settings in GitHub.
+
 ## Quick start on Ubuntu
 
 ```bash
@@ -65,6 +83,10 @@ If the published image is available and you do not want to build locally:
 ```bash
 ./install.sh --image
 ```
+
+If the image pull returns `denied`, the GHCR package is still private. Either
+make the package public or use `./install.sh` to build the image locally from
+this repository.
 
 Open:
 
@@ -167,7 +189,22 @@ The TrueNAS template uses the published image:
 ghcr.io/righteous84/namoa:latest
 ```
 
-Pin a version tag instead of `latest` for reproducible installations.
+Pin a version tag instead of `latest` for reproducible installations:
+
+```yaml
+    image: ghcr.io/righteous84/namoa:0.1.0
+```
+
+If the image pull returns `denied`, the GHCR package is still private. Make the
+package public in GitHub, then retry the app installation.
+
+The `user:` value in the YAML must match the owner of the data, config, logs,
+and media datasets. `1000:1000` is only an example. On TrueNAS, use the UID and
+GID shown in the dataset permissions or the Apps user configuration.
+
+To upgrade a TrueNAS installation, back up the datasets, change the image tag
+in the app YAML or app settings, and apply the update. Database migrations run
+automatically on startup.
 
 ## Building the image yourself
 
@@ -274,6 +311,36 @@ docker compose logs -f namoa
 ```
 
 or inspect `logs/namoa.log` inside the mounted log directory.
+
+## Publishing a release
+
+Maintainers publish a version by tagging the public repository:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The GitHub Actions workflow builds and publishes the matching image:
+
+```text
+ghcr.io/righteous84/namoa:0.1.0
+```
+
+After the first package publish, set the GitHub Container Registry package
+visibility to public. Anonymous users and TrueNAS SCALE must be able to pull it.
+
+Use the version tag in production:
+
+```dotenv
+NAMOA_VERSION=0.1.0
+```
+
+or directly in the TrueNAS YAML:
+
+```yaml
+    image: ghcr.io/righteous84/namoa:0.1.0
+```
 
 ## Licence
 
