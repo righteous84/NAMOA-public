@@ -1,0 +1,30 @@
+services:
+  namoa:
+    image: ghcr.io/righteous84/namoa:${NAMOA_VERSION:-latest}
+    container_name: namoa
+    restart: unless-stopped
+    stop_grace_period: 30s
+    user: "${PUID:-1000}:${PGID:-1000}"
+    ports:
+      - "${NAMOA_PORT:-8080}:8080"
+    environment:
+      XDG_CONFIG_HOME: /config
+      NAMOA_PREVIEW_DIR: /data/previews
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - "${NAMOA_DATA_DIR:-./data}:/data"
+      - "${NAMOA_CONFIG_DIR:-./config-data}:/config"
+      - "${NAMOA_LOG_DIR:-./logs}:/app/logs"
+      # Mount the host library at the same path inside the container so
+      # paths already recorded in the database remain valid.
+      - "${NAMOA_MEDIA_ROOT:-/mnt/media}:${NAMOA_MEDIA_ROOT:-/mnt/media}"
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s

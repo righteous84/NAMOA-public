@@ -94,6 +94,85 @@ Open:
 http://localhost:8080
 ```
 
+## Manual Docker Compose installation
+
+`install.sh` is optional. The application code lives in the container image.
+The host directory only stores the Compose file, `.env`, and persistent data.
+
+You can install the Compose project anywhere. For example:
+
+```bash
+sudo mkdir -p /opt/namoa
+sudo chown "$USER":"$USER" /opt/namoa
+
+git clone https://github.com/righteous84/NAMOA-public.git /opt/namoa
+cd /opt/namoa
+cp .env.example .env
+```
+
+Example `.env` for custom paths:
+
+```dotenv
+NAMOA_PORT=8080
+NAMOA_VERSION=0.1.0
+
+NAMOA_MEDIA_ROOT=/mnt/media_drv1
+
+NAMOA_DATA_DIR=/mnt/tank/apps/namoa/data
+NAMOA_CONFIG_DIR=/mnt/tank/apps/namoa/config
+NAMOA_LOG_DIR=/mnt/tank/apps/namoa/logs
+
+PUID=1000
+PGID=1000
+```
+
+Create and own the persistent directories:
+
+```bash
+sudo mkdir -p \
+  /mnt/tank/apps/namoa/data \
+  /mnt/tank/apps/namoa/config \
+  /mnt/tank/apps/namoa/logs
+sudo chown -R "$USER":"$USER" /mnt/tank/apps/namoa
+```
+
+Build from this source checkout and start:
+
+```bash
+docker compose up -d --build
+```
+
+Or use only the published image, without building:
+
+```bash
+docker compose -f compose.image.yaml up -d
+```
+
+`compose.yaml` includes a local build context. `compose.image.yaml` has no
+build context and only pulls `ghcr.io/righteous84/namoa`.
+
+The application path inside the container remains `/app`. Do not bind-mount
+the host source checkout over it in production.
+
+## Multiple instances
+
+The provided Compose files use:
+
+```yaml
+container_name: namoa
+```
+
+Two instances on one Docker host therefore need separate names, ports,
+persistent directories, and Compose project names. Copy and adjust the Compose
+file for each instance, and use:
+
+```bash
+docker compose -p namoa-second -f compose.image.yaml up -d
+```
+
+Change `container_name`, `NAMOA_PORT`, and the data, config, log, and media
+paths for the second instance.
+
 ## First run
 
 1. Open the NAMOA web interface.
